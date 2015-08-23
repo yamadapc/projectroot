@@ -24,6 +24,7 @@ static const char* const candidates[] = {
   "requirements.txt",
   "tox.ini",
   "package.json",
+  "node_modules",
   "gulpfile.js",
   "Gruntfile.js",
   "bower.json",
@@ -64,7 +65,7 @@ int main() {
   char cwd[1024];
 
   if(!getcwd(cwd, sizeof(cwd))) {
-    printf("Error: Couldn't get the current working directory\n");
+    fprintf(stderr, "Error: Couldn't get the current working directory\n");
     return 1;
   }
 
@@ -75,6 +76,6 @@ int main() {
     return 0;
   }
 
-  printf("Error: Couldn't find the project's root directory\n");
+  fprintf(stderr, "Error: Couldn't find the project's root directory\n");
   return 2;
 }
