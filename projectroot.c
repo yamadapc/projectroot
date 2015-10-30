@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <glob.h>
 #include <string.h>
+#include "commander.h"
 
 #define N_CANDIDATES 26
 
@@ -66,7 +67,11 @@ char* find_project_root(char* cwd) {
   return NULL;
 }
 
-int main() {
+int main(int argc, char** argv) {
+  command_t cmd;
+  command_init(&cmd, argv[0], "1.0.0");
+  command_parse(&cmd, argc, argv);
+
   char cwd[1024];
 
   if(!getcwd(cwd, sizeof(cwd))) {
