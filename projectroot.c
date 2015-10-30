@@ -2,9 +2,10 @@
 #include <libgen.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <glob.h>
 #include <string.h>
 
-#define N_CANDIDATES 2
+#define N_CANDIDATES 26
 
 static const char* const candidates[] = {
   ".git",
@@ -36,15 +37,19 @@ static const char* const candidates[] = {
 };
 
 int is_project_root(char* cdt) {
-  DIR *dir = opendir(cdt);
-  struct dirent *ent;
+  char pattern[1024];
+  glob_t res;
+  size_t cdt_size = strlen(cdt);
 
-  if(dir != NULL) {
-    while((ent = readdir(dir))) {
-      for(int i = 0; i < N_CANDIDATES; i++) {
-        if(strcmp(ent->d_name, candidates[i]) == 0) return 1;
-      }
+  strcpy(pattern, cdt);
+  strcat(pattern, "/");
+
+  for(int i = 0; i < N_CANDIDATES; i++) {
+    strcat(pattern, candidates[i]);
+    if(glob(pattern, GLOB_NOSORT, NULL, &res) == 0) {
+      return 1;
     }
+    pattern[cdt_size + 1] = 0;
   }
 
   return 0;
