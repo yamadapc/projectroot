@@ -6,10 +6,10 @@ DEPS = $(wildcard deps/*/*.c)
 OBJS = $(DEPS:.c=.o)
 
 projectroot: $(SRC) Makefile $(OBJS)
-	$(CC) -Ideps/commander -std=gnu11 -Wall -O3 $(SRC) $(OBJS) -o projectroot
+	$(CC) -Ideps/commander -std=c99 -Wall -O3 $(SRC) $(OBJS) -o projectroot
 
 %.o: %.c
-	$(CC) $< -c -o $@
+	$(CC) $< -std=c99 -c -o $@
 
 install:
 	cp projectroot $(PREFIX)/projectroot
