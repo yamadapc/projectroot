@@ -93,7 +93,7 @@ char* find_project_root(char* cwd) {
 
 int main(int argc, char** argv) {
   command_t cmd;
-  command_init(&cmd, argv[0], "1.1.0");
+  command_init(&cmd, argv[0], "1.1.1");
   command_option(&cmd, "-t", "--top", "always prefer the topmost artifact", weight_mode);
   command_parse(&cmd, argc, argv);
 
