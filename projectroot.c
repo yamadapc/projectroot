@@ -1,12 +1,19 @@
 #include <dirent.h>
-#include <libgen.h>
-#include <unistd.h>
-#include <stdio.h>
 #include <glob.h>
+#include <libgen.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "commander.h"
 
 #define N_CANDIDATES 26
+
+int weight_mode_on = 0;
+
+static void weight_mode(command_t* self) {
+  weight_mode_on = 1;
+}
 
 static const char* const candidates[] = {
   ".git",
@@ -48,12 +55,29 @@ int is_project_root(char* cdt) {
   for(int i = 0; i < N_CANDIDATES; i++) {
     strcat(pattern, candidates[i]);
     if(glob(pattern, GLOB_NOSORT, NULL, &res) == 0) {
-      return 1;
+      return N_CANDIDATES - i + 1;
     }
     pattern[cdt_size + 1] = 0;
   }
 
   return 0;
+}
+
+char* find_project_root_weighted(char* cwd) {
+  char* cdt = cwd;
+  char* best_cdt = malloc(sizeof(char) * 1024);
+  int best_cdt_weight = 0;
+  int cdt_weight;
+
+  while(strcmp(cdt, "/") != 0) {
+    if((cdt_weight = is_project_root(cdt)) && cdt_weight > best_cdt_weight) {
+      best_cdt_weight = cdt_weight;
+      strcpy(best_cdt, cdt);
+    }
+    cdt = dirname(cdt);
+  }
+
+  return best_cdt;
 }
 
 char* find_project_root(char* cwd) {
@@ -70,6 +94,7 @@ char* find_project_root(char* cwd) {
 int main(int argc, char** argv) {
   command_t cmd;
   command_init(&cmd, argv[0], "1.0.0");
+  command_option(&cmd, "-w", "--weight", "Enables weight mode", weight_mode);
   command_parse(&cmd, argc, argv);
 
   char cwd[1024];
@@ -79,7 +104,13 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  char* root = find_project_root(cwd);
+  char* root;
+
+  if(weight_mode_on) {
+    root = find_project_root_weighted(cwd);
+  } else {
+    root = find_project_root(cwd);
+  }
 
   if(root) {
     printf("%s\n", root);
