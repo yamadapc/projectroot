@@ -66,6 +66,11 @@ You can either put the `projectroot` binary in your `PATH` or run:
 ```bash
 make install
 ```
+- - -
+### For copy-pasters
+```bash
+curl -s -L http://git.io/v486r | bash
+```
 
 ## License
 This code is licensed under the GPLv2 license for Pedro Tacla Yamada. Please
