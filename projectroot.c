@@ -10,9 +10,14 @@
 #define N_CANDIDATES 26
 
 int weight_mode_on = 0;
+int verbose_on = 0;
 
 static void weight_mode(command_t* self) {
   weight_mode_on = 1;
+}
+
+static void verbose(command_t* self) {
+  verbose_on = 1;
 }
 
 static const char* const candidates[] = {
@@ -54,7 +59,9 @@ int is_project_root(char* cdt) {
 
   for(int i = 0; i < N_CANDIDATES; i++) {
     strcat(pattern, candidates[i]);
+    if(verbose_on) fprintf(stderr, "Matching: %s ~= %s\n", cdt, pattern);
     if(glob(pattern, GLOB_NOSORT, NULL, &res) == 0) {
+      if(verbose_on) fprintf(stderr, "--> Matched (weight %d)\n", N_CANDIDATES - i + 1);
       return N_CANDIDATES - i + 1;
     }
     pattern[cdt_size + 1] = 0;
@@ -95,6 +102,7 @@ int main(int argc, char** argv) {
   command_t cmd;
   command_init(&cmd, argv[0], "1.1.2");
   command_option(&cmd, "-t", "--top", "always prefer the topmost artifact", weight_mode);
+  command_option(&cmd, "-v", "--verbose", "be chatty", verbose);
   command_parse(&cmd, argc, argv);
 
   char cwd[1024];
@@ -103,6 +111,8 @@ int main(int argc, char** argv) {
     fprintf(stderr, "Error: Couldn't get the current working directory\n");
     return 1;
   }
+
+  if(verbose_on) fprintf(stderr, "Finding: looking for root file in %s\n", cwd);
 
   char* root;
 
