@@ -34,6 +34,7 @@ static const char* const candidates[] = {
   "bower.json",
   "composer.json",
   "Cargo.toml",
+  "stack.yaml",
   ".cabal-sandbox",
   "*.cabal",
   "mix.exs",
