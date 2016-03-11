@@ -11,6 +11,7 @@ int weight_mode_on = 0;
 int verbose_on = 0;
 
 static const char* const candidates[] = {
+  ".projectroot",
   ".git",
   ".hg",
   ".fslckout",
