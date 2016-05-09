@@ -38,6 +38,7 @@ static const char* const candidates[] = {
   ".cabal-sandbox",
   "*.cabal",
   "mix.exs",
+  "dub.json",
 };
 
 int is_project_root(char* cdt) {
