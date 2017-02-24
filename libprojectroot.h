@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #define N_CANDIDATES 26
+#define BUFFER_SIZE 1024
 
 int weight_mode_on;
 int verbose_on;

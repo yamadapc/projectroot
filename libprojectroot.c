@@ -42,11 +42,12 @@ static const char* const candidates[] = {
 };
 
 int is_project_root(char* cdt) {
-  char pattern[1024];
+  char pattern[BUFFER_SIZE];
   glob_t res;
   size_t cdt_size = strlen(cdt);
 
-  strcpy(pattern, cdt);
+  strncpy(pattern, cdt, BUFFER_SIZE);
+  pattern[BUFFER_SIZE-1] = '\0';
   strcat(pattern, "/");
 
   for(int i = 0; i < N_CANDIDATES; i++) {
@@ -64,14 +65,15 @@ int is_project_root(char* cdt) {
 
 char* find_project_root_weighted(char* cwd) {
   char* cdt = cwd;
-  char* best_cdt = malloc(sizeof(char) * 1024);
+  char* best_cdt = malloc(sizeof(char) * BUFFER_SIZE);
   int best_cdt_weight = 0;
   int cdt_weight;
 
   while(strcmp(cdt, "/") != 0) {
     if((cdt_weight = is_project_root(cdt)) && cdt_weight > best_cdt_weight) {
       best_cdt_weight = cdt_weight;
-      strcpy(best_cdt, cdt);
+      strncpy(best_cdt, cdt, BUFFER_SIZE);
+      best_cdt[BUFFER_SIZE-1] = '\0';
     }
     cdt = dirname(cdt);
   }
