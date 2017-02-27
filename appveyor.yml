@@ -3,11 +3,5 @@ os: Visual Studio 2015
 cache:
   - C:\mingw64
 
-    # install:
-  # - wget https://bintray.com/artifact/download/drewwells/generic/x86_64-4.9.2-release-win32-seh-rt_v4-rev3.7z -OutFile x86_64-4.9.2-release-win32-seh-rt_v4-rev3.7z
-  # - &7z x -oC:\ x86_64-4.9.2-release-win32-seh-rt_v4-rev3.7z > $null
-  # - set PATH=C:\mingw64\bin;%PATH%
-  # - set CC=gcc
-
 build_script:
-- mingw32-make
+- mingw64-make
