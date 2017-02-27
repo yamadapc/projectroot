@@ -1,5 +1,6 @@
 # projectroot
 [![Build Status](https://travis-ci.org/yamadapc/projectroot.svg?branch=master)](https://travis-ci.org/yamadapc/projectroot)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/rb65avyoqnkqm2qv?svg=true)](https://ci.appveyor.com/project/yamadapc/projectroot)
 - - -
 A simple command-line utility for finding the current project's root.
 
