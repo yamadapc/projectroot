@@ -1,2 +1,3 @@
 build_script:
-- mingw64-make
+- set MSYSTEM=MINGW64
+- C:\msys64\usr\bin\bash -l -c "make -C /c/projects/projectroot"
