@@ -1,4 +1,6 @@
 # projectroot
+[![Build Status](https://travis-ci.org/yamadapc/projectroot.svg?branch=master)](https://travis-ci.org/yamadapc/projectroot)
+- - -
 A simple command-line utility for finding the current project's root.
 
 Borrows lightly from emacs' projectile plugin.
